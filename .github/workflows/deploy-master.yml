@@ -1,22 +1,21 @@
-name: Deploy to Production on PR Merge
+name: Deploy from Master
 on:
-  pull_request:
-    branches:
-      - master
-    types:
-      - closed
+  workflow_dispatch:
+    inputs:
+      deployment_type:
+        description: 'Type of deployment'
+        required: true
+        default: 'production'
+        type: string
+
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up Node.js (or other environment)
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-      - name: Install dependencies
-        run: npm install
+
       - name: Deploy to Production
-        run: echo 'Deploying to production...'
+        run: |
+          echo "Deploying to production environment..."
+          
